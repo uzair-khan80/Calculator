@@ -1,4 +1,5 @@
 import ipywidgets as widgets
+import streamlit as st
 from IPython.display import display
 import math
 
