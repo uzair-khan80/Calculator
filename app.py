@@ -1,11 +1,8 @@
-import ipywidgets as widgets
 import streamlit as st
-from IPython.display import display
 import math
 
 # Function to calculate the result
-def calculate(button):
-    expression = entry.value
+def calculate(expression):
     try:
         if expression.startswith("sin("):
             angle = float(expression[4:-1])
@@ -25,25 +22,16 @@ def calculate(button):
         else:
             result = eval(expression)
         
-        output.value = f"Result: {result}"
+        return result
     except Exception as e:
-        output.value = f"Error: {e}"
+        return f"Error: {e}"
 
-# Create input field
-entry = widgets.Text(
-    description='Input:',
-    placeholder='Enter expression'
-)
+# Streamlit app layout
+st.title("Scientific Calculator")
 
-# Create calculate button
-calc_button = widgets.Button(
-    description='Calculate',
-    button_style='success'
-)
-calc_button.on_click(calculate)
+# User input
+expression = st.text_input("Enter your calculation (e.g., sin(30), 2 + 3):")
 
-# Create output area
-output = widgets.Label(value="Result will be displayed here.")
-
-# Display widgets
-display(entry, calc_button, output)
+if st.button("Calculate"):
+    result = calculate(expression)
+    st.write(f"Result: {result}")
