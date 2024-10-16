@@ -4,34 +4,49 @@ import math
 # Function to calculate the result
 def calculate(expression):
     try:
-        if expression.startswith("sin("):
-            angle = float(expression[4:-1])
-            result = math.sin(math.radians(angle))
-        elif expression.startswith("cos("):
-            angle = float(expression[4:-1])
-            result = math.cos(math.radians(angle))
-        elif expression.startswith("tan("):
-            angle = float(expression[4:-1])
-            result = math.tan(math.radians(angle))
-        elif expression.startswith("log("):
-            value = float(expression[4:-1])
-            result = math.log(value)
-        elif expression.startswith("sqrt("):
-            value = float(expression[5:-1])
-            result = math.sqrt(value)
-        else:
-            result = eval(expression)
-        
-        return result
+        # Evaluate the expression
+        return eval(expression)
     except Exception as e:
         return f"Error: {e}"
+
+# Initialize session state for the current expression
+if 'expression' not in st.session_state:
+    st.session_state.expression = ""
 
 # Streamlit app layout
 st.title("Scientific Calculator")
 
-# User input
-expression = st.text_input("Enter your calculation (e.g., sin(30), 2 + 3):")
+# Display the current expression
+st.write("Current Expression:", st.session_state.expression)
 
-if st.button("Calculate"):
-    result = calculate(expression)
-    st.write(f"Result: {result}")
+# Define a function to update the expression
+def update_expression(value):
+    st.session_state.expression += value
+
+# Define buttons for digits and operations
+buttons = [
+    '7', '8', '9', '/',
+    '4', '5', '6', '*',
+    '1', '2', '3', '-',
+    '0', '.', '=', '+',
+    'sin(', 'cos(', 'tan(', 'log(',
+    'sqrt(', 'C'
+]
+
+# Create buttons dynamically
+cols = st.columns(4)
+for i, button in enumerate(buttons):
+    with cols[i % 4]:
+        if button == '=':
+            if st.button(button):
+                result = calculate(st.session_state.expression)
+                st.session_state.expression = str(result)
+        elif button == 'C':
+            if st.button(button):
+                st.session_state.expression = ""
+        else:
+            if st.button(button):
+                update_expression(button)
+
+# Input field for the expression
+st.text_input("Expression", value=st.session_state.expression, key="input", disabled=True)
