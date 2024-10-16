@@ -29,9 +29,9 @@ buttons = [
     '7', '8', '9', '/',
     '4', '5', '6', '*',
     '1', '2', '3', '-',
-    '0', '.', '=', '+',
+    '0', '.', 'C', '+',
     'sin(', 'cos(', 'tan(', 'log(',
-    'sqrt(', 'C'
+    'sqrt(', '='
 ]
 
 # Create button layout
@@ -39,14 +39,14 @@ cols = st.columns(4)
 for i, button in enumerate(buttons):
     with cols[i % 4]:
         if button == '=':
-            if st.button(button, key=f'btn_{i}', help="Calculate result"):
+            if st.button(button, key=f'btn_{button}'):
                 result = calculate(st.session_state.expression)
                 st.session_state.expression = str(result)
         elif button == 'C':
-            if st.button(button, key=f'btn_{i}', help="Clear expression"):
+            if st.button(button, key=f'btn_{button}'):
                 st.session_state.expression = ""
         else:
-            if st.button(button, key=f'btn_{i}'):
+            if st.button(button, key=f'btn_{button}'):
                 update_expression(button)
 
 # Styling for a better UI
@@ -56,34 +56,26 @@ st.markdown(
     .stButton>button {
         background-color: #4CAF50;
         color: white;
-        padding: 20px;
-        border: 2px solid #4CAF50;
+        padding: 15px;
+        border: 2px solid #388E3C;
         border-radius: 5px;
         cursor: pointer;
-        font-size: 18px;
+        font-size: 16px;
         margin: 5px;
-        transition: background-color 0.3s, transform 0.2s;
+        transition: background-color 0.3s;
         width: 100%;
+        height: 60px;
     }
     .stButton>button:hover {
         background-color: #45a049;
-        transform: scale(1.05);
     }
     .stTextInput>div>input {
         font-size: 24px;
         padding: 10px;
         border: 2px solid #4CAF50;
         border-radius: 5px;
-        width: 100%;
-    }
-    .stButton>button:focus {
-        outline: none;
     }
     </style>
     """,
     unsafe_allow_html=True
 )
-
-# Footer for better design
-st.write("---")
-st.write("Made with ❤️ by Your Name")
