@@ -4,7 +4,6 @@ import math
 # Function to calculate the result
 def calculate(expression):
     try:
-        # Evaluate the expression
         return eval(expression)
     except Exception as e:
         return f"Error: {e}"
@@ -13,15 +12,17 @@ def calculate(expression):
 if 'expression' not in st.session_state:
     st.session_state.expression = ""
 
-# Streamlit app layout
-st.title("Scientific Calculator")
-
-# Display the current expression
-st.write("Current Expression:", st.session_state.expression)
-
-# Define a function to update the expression
+# Function to update the expression
 def update_expression(value):
     st.session_state.expression += value
+
+# Streamlit app layout
+st.title("🧮 Scientific Calculator")
+st.write("Enter your calculations below:")
+
+# Display the current expression
+st.write("Current Expression:")
+st.text_input("Expression", value=st.session_state.expression, key="input", disabled=True)
 
 # Define buttons for digits and operations
 buttons = [
@@ -33,7 +34,7 @@ buttons = [
     'sqrt(', 'C'
 ]
 
-# Create buttons dynamically
+# Create button layout
 cols = st.columns(4)
 for i, button in enumerate(buttons):
     with cols[i % 4]:
@@ -48,5 +49,31 @@ for i, button in enumerate(buttons):
             if st.button(button):
                 update_expression(button)
 
-# Input field for the expression
-st.text_input("Expression", value=st.session_state.expression, key="input", disabled=True)
+# Styling for a better UI
+st.markdown(
+    """
+    <style>
+    .stButton>button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 15px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        margin: 5px;
+        transition: background-color 0.3s;
+    }
+    .stButton>button:hover {
+        background-color: #45a049;
+    }
+    .stTextInput>div>input {
+        font-size: 24px;
+        padding: 10px;
+        border: 2px solid #4CAF50;
+        border-radius: 5px;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
