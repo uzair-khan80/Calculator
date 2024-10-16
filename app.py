@@ -39,41 +39,49 @@ cols = st.columns(4)
 for i, button in enumerate(buttons):
     with cols[i % 4]:
         if button == '=':
-            if st.button(button, key=f'btn_{button}'):
+            if st.button(button, key=f'btn_{button}', help="Calculate the result"):
                 result = calculate(st.session_state.expression)
                 st.session_state.expression = str(result)
         elif button == 'C':
-            if st.button(button, key=f'btn_{button}'):
+            if st.button(button, key=f'btn_{button}', help="Clear the expression"):
                 st.session_state.expression = ""
         else:
-            if st.button(button, key=f'btn_{button}'):
+            if st.button(button, key=f'btn_{button}', help=f"Add {button} to expression"):
                 update_expression(button)
 
 # Styling for a better UI
 st.markdown(
     """
     <style>
+    body {
+        background-color: #1F1F1F;
+        color: #FFFFFF;
+        font-family: 'Arial', sans-serif;
+    }
     .stButton>button {
         background-color: #4CAF50;
         color: white;
-        padding: 15px;
+        padding: 20px;
         border: 2px solid #388E3C;
-        border-radius: 5px;
+        border-radius: 10px;
         cursor: pointer;
-        font-size: 16px;
-        margin: 5px;
-        transition: background-color 0.3s;
+        font-size: 18px;
+        margin: 10px 0;
+        transition: background-color 0.3s, transform 0.2s;
         width: 100%;
-        height: 60px;
+        height: 70px;
     }
     .stButton>button:hover {
         background-color: #45a049;
+        transform: scale(1.05);
     }
     .stTextInput>div>input {
-        font-size: 24px;
-        padding: 10px;
+        font-size: 28px;
+        padding: 15px;
         border: 2px solid #4CAF50;
-        border-radius: 5px;
+        border-radius: 10px;
+        background-color: #333333;
+        color: white;
     }
     </style>
     """,
