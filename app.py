@@ -44,8 +44,7 @@ for i in range(rows):
             button = buttons[index]
             with cols[j]:
                 if button == '=':
-                    if st.button(button, key=f'btn_{button}', help="Calculate the result", 
-                                 style="background-color: #4CAF50; border: 2px solid #388E3C;"):
+                    if st.button(button, key=f'btn_{button}', help="Calculate the result"):
                         result = calculate(st.session_state.expression)
                         st.session_state.expression = str(result)
                 elif button == 'C':
